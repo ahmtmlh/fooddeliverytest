@@ -22,6 +22,10 @@ public class User {
     @Column
     private String password;
 
+    @OneToOne(fetch = FetchType.LAZY, targetEntity = UserData.class)
+    @JoinColumn(name = "userdata_id")
+    private UserData userData;
+
     public User(UserType userType, String username, String password) {
         this.userType = userType;
         this.username = username;
@@ -61,5 +65,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public UserData getUserData() {
+        return userData;
+    }
+
+    public void setUserData(UserData userData) {
+        this.userData = userData;
     }
 }

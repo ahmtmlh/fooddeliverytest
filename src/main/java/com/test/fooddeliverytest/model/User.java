@@ -11,7 +11,7 @@ public class User {
     }
 
     @Id
-    @Column
+    @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Enumerated(EnumType.STRING)
@@ -23,8 +23,11 @@ public class User {
     private String password;
 
     @OneToOne(fetch = FetchType.LAZY, targetEntity = UserData.class)
-    @JoinColumn(name = "userdata_id")
+    @JoinColumn(name = "userdata_id", unique = true)
     private UserData userData;
+
+    @OneToOne(fetch = FetchType.LAZY, targetEntity = Cart.class, mappedBy = "user")
+    private Cart cart;
 
     public User(UserType userType, String username, String password) {
         this.userType = userType;
@@ -73,5 +76,13 @@ public class User {
 
     public void setUserData(UserData userData) {
         this.userData = userData;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 }

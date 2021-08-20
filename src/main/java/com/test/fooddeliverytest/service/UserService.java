@@ -2,6 +2,7 @@ package com.test.fooddeliverytest.service;
 
 import com.test.fooddeliverytest.dao.UserRepository;
 import com.test.fooddeliverytest.model.User;
+import com.test.fooddeliverytest.model.UserData;
 import com.test.fooddeliverytest.security.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,6 +28,12 @@ public class UserService implements UserDetailsService {
 
     public Optional<User> createUser(String username, String password){
         return Optional.of(userRepository.save(new User(User.UserType.NORMAL, username, password)));
+    }
+
+    public Optional<User> createUserWithData(String username, String password, UserData userData){
+        User user = new User(User.UserType.NORMAL, username, password);
+        user.setUserData(userData);
+        return Optional.of(userRepository.save(user));
     }
 
     public Optional<User> createAdmin(String username, String password){

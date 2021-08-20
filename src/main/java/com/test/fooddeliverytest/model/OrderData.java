@@ -11,9 +11,13 @@ public class OrderData {
     @Column(name = "order_id")
     private Long id;
 
+    @ManyToOne(targetEntity = User.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false, name = "USER_ID", referencedColumnName = "user_id")
+    private User user;
+
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Restaurant.class)
     @JoinColumn(nullable = false, name = "restaurant_id")
-    private Restaurant restaurantData;
+    private Restaurant restaurant;
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Meal.class)
     @JoinColumn(name = "meal_id")
@@ -27,12 +31,12 @@ public class OrderData {
         this.id = id;
     }
 
-    public Restaurant getRestaurantData() {
-        return restaurantData;
+    public Restaurant getRestaurant() {
+        return restaurant;
     }
 
-    public void setRestaurantData(Restaurant restaurantData) {
-        this.restaurantData = restaurantData;
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
     public Set<Meal> getMealData() {
@@ -41,5 +45,13 @@ public class OrderData {
 
     public void setMealData(Set<Meal> mealData) {
         this.mealData = mealData;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

@@ -59,21 +59,4 @@ public class LoginController {
         }
     }
 
-    // FOR TEST PURPOSES ONLY
-    @PostMapping("/login2")
-    public ResponseEntity<?> registerAdmin(@RequestBody @Valid UserLoginDTO userInfo){
-
-        if (userService.userExist(userInfo.getUsername())){
-            return Response.badValue("User exists!", "Invalid username").build();
-        }
-
-        userInfo.setPassword(passwordEncoderUtil.encodePassword(userInfo.getPassword()));
-
-        if (userService.createAdmin(userInfo.getUsername(), userInfo.getPassword()).isEmpty()){
-            return Response.badValue("Can't create user", "User creation error").build();
-        }
-
-        return Response.ok("Admin has been added successfully").build();
-    }
-
 }

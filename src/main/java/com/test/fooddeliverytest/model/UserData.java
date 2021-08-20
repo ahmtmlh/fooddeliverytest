@@ -1,6 +1,7 @@
 package com.test.fooddeliverytest.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class UserData {
@@ -11,15 +12,21 @@ public class UserData {
     private Long id;
     @Column()
     private String imageUrl;
-    @Column(nullable = false)
+    @Column()
     private String address;
-    @Column(nullable = false)
+    @Column()
     private String phone;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
-
+    @Column(nullable = false)
+    private String name;
+    @Column(nullable = false)
+    private String surname;
     @OneToOne(fetch = FetchType.EAGER, targetEntity = User.class, mappedBy = "userData")
     private User user;
+    @OneToMany(targetEntity = OrderData.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
+    private List<OrderData> lastOrders;
+
 
     public UserData() {
     }
@@ -70,5 +77,37 @@ public class UserData {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<OrderData> getLastOrders() {
+        return lastOrders;
+    }
+
+    public void setLastOrders(List<OrderData> lastOrders) {
+        this.lastOrders = lastOrders;
     }
 }

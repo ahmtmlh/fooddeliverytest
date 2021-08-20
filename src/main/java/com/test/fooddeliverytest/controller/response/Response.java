@@ -96,6 +96,16 @@ public class Response {
         return response;
     }
 
+    public static Response internalError(String message){
+        Response response = new Response();
+
+        response.setMessage(message);
+        response.setReason("Unknown internal reason");
+        response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        return response;
+    }
+
     public static Response notFound(String message){
         Response response = new Response();
 

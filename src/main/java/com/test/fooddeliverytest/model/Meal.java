@@ -17,14 +17,14 @@ public class Meal {
     @Column(nullable = false)
     private String description;
     @Column(nullable = false)
-    private String price;
+    private Long price;
 
     @ElementCollection
     @CollectionTable(name = "Ingredients", joinColumns = @JoinColumn(name = "meal_id"))
     @Column(name="ingredients")
     private List<String> ingredients;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Restaurant.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "RESTAURANT_ID", referencedColumnName = "restaurant_id")
     private Restaurant restaurant;
 
@@ -60,11 +60,11 @@ public class Meal {
         this.description = description;
     }
 
-    public String getPrice() {
+    public Long getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Long price) {
         this.price = price;
     }
 

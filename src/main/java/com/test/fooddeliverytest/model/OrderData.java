@@ -20,7 +20,7 @@ public class OrderData {
     private Restaurant restaurant;
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Meal.class)
-    @JoinColumn(name = "meal_id")
+    @JoinColumn(name = "meal_id", nullable = false)
     private Set<Meal> mealData;
 
     public Long getId() {

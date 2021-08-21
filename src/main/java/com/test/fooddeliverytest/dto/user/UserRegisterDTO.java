@@ -1,4 +1,4 @@
-package com.test.fooddeliverytest.dto;
+package com.test.fooddeliverytest.dto.user;
 
 import com.test.fooddeliverytest.model.User;
 import com.test.fooddeliverytest.model.UserData;

@@ -22,7 +22,7 @@ public class User {
     @Column
     private String password;
 
-    @OneToOne(fetch = FetchType.LAZY, targetEntity = UserData.class)
+    @OneToOne(fetch = FetchType.EAGER, targetEntity = UserData.class)
     @JoinColumn(name = "userdata_id", unique = true)
     private UserData userData;
 
@@ -35,8 +35,7 @@ public class User {
         this.password = password;
     }
 
-    public User() {
-    }
+    public User() { }
 
     public Long getId() {
         return id;

@@ -47,6 +47,10 @@ public class UserService implements UserDetailsService {
         return UserPrincipal.create(user);
     }
 
+    public void updateUser(User user){
+        userRepository.save(user);
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> user = userDetails(username);

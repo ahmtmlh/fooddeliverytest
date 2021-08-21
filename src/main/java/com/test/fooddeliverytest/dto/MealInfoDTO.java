@@ -1,6 +1,6 @@
 package com.test.fooddeliverytest.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.test.fooddeliverytest.model.Meal;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -15,12 +15,9 @@ public class MealInfoDTO {
     @NotNull
     private String description;
     @NotNull
-    private String price;
+    private Long price;
     @NotNull
     private List<String> ingredients;
-
-    @JsonIgnore
-    private RestaurantInfoDTO restaurantInfo;
 
     public Long getId() {
         return id;
@@ -54,11 +51,11 @@ public class MealInfoDTO {
         this.description = description;
     }
 
-    public String getPrice() {
+    public Long getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Long price) {
         this.price = price;
     }
 
@@ -69,4 +66,18 @@ public class MealInfoDTO {
     public void setIngredients(List<String> ingredients) {
         this.ingredients = ingredients;
     }
+
+    public static MealInfoDTO fromMeal(Meal meal){
+        MealInfoDTO mealInfoDTO = new MealInfoDTO();
+
+        mealInfoDTO.setDescription(meal.getDescription());
+        mealInfoDTO.setId(meal.getId());
+        mealInfoDTO.setName(meal.getName());
+        mealInfoDTO.setImageUrl(meal.getImageUrl());
+        mealInfoDTO.setPrice(meal.getPrice());
+        mealInfoDTO.setIngredients(meal.getIngredients());
+
+        return mealInfoDTO;
+    }
+
 }

@@ -11,13 +11,17 @@ public class JwtTokenProvider {
 
     public String generateToken(Authentication authentication) {
 
-        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        Long id = SecurityConstants.ADMIN_USER_ID;
+        try{
+            UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+            id = userPrincipal.getId();
+        } catch (Exception ignore){ }
 
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + SecurityConstants.EXPIRATION_TIME);
 
         return Jwts.builder()
-                .setSubject(Long.toString(userPrincipal.getId()))
+                .setSubject(Long.toString(id))
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, SecurityConstants.SECRET)

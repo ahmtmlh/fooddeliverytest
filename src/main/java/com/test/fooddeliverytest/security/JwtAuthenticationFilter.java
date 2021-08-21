@@ -33,15 +33,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             if (StringUtils.hasText(jwt) && jwtTokenProvider.validateToken(jwt)) {
                 Long userId = jwtTokenProvider.getUserIdFromJWT(jwt);
-                UserDetails userDetails = userService.getUserDetailsById(userId);
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                // In memory authenticated admin user
+                if (userId.equals(SecurityConstants.ADMIN_USER_ID)){
+                    UserDetails adminUser = SecurityConstants.ADMIN_USER;
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                            adminUser, null, adminUser.getAuthorities());
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                } else {
+                    UserDetails userDetails = userService.getUserDetailsById(userId);
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                            userDetails, null, userDetails.getAuthorities());
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
+
             }
 
         } catch (UsernameNotFoundException e){
-            System.err.println("User authentication set error!");
+            System.err.println(e.getLocalizedMessage());
         } catch (Exception ex){
             System.err.println("Unknown error on user authentication!");
             System.out.println("Exception details: " + ex.toString());

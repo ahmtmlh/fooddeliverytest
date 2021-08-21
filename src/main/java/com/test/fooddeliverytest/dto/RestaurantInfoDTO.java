@@ -1,5 +1,7 @@
 package com.test.fooddeliverytest.dto;
 
+import com.test.fooddeliverytest.model.Restaurant;
+
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -17,8 +19,9 @@ public class RestaurantInfoDTO {
     private String minDeliveryTime;
     @NotNull
     private String minDeliveryFee;
-    @NotNull
+
     private List<MealInfoDTO> meals;
+    private String imageUrl;
 
     public Long getId() {
         return id;
@@ -74,5 +77,27 @@ public class RestaurantInfoDTO {
 
     public void setMeals(List<MealInfoDTO> meals) {
         this.meals = meals;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public static RestaurantInfoDTO fromRestaurant(Restaurant restaurant){
+        RestaurantInfoDTO restaurantInfoDTO = new RestaurantInfoDTO();
+
+        restaurantInfoDTO.setCuisine(restaurant.getCuisine());
+        restaurantInfoDTO.setInformation(restaurant.getInformation());
+        restaurantInfoDTO.setId(restaurant.getId());
+        restaurantInfoDTO.setName(restaurant.getName());
+        restaurantInfoDTO.setMinDeliveryFee(restaurant.getMinDeliveryFee());
+        restaurantInfoDTO.setMinDeliveryTime(restaurant.getMinDeliveryTime());
+        restaurantInfoDTO.setImageUrl(restaurant.getImageUrl());
+
+        return restaurantInfoDTO;
     }
 }

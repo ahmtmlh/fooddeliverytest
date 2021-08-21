@@ -2,7 +2,8 @@ package com.test.fooddeliverytest.controller;
 
 
 import com.test.fooddeliverytest.controller.response.Response;
-import com.test.fooddeliverytest.dto.UserLoginDTO;
+import com.test.fooddeliverytest.dto.user.UserLoginDTO;
+import com.test.fooddeliverytest.dto.user.UserLoginSuccessDTO;
 import com.test.fooddeliverytest.security.JwtTokenProvider;
 import com.test.fooddeliverytest.security.PasswordEncoderUtil;
 import com.test.fooddeliverytest.security.SecurityConstants;
@@ -51,8 +52,9 @@ public class LoginController {
 
             String token = tokenProvider.generateToken(authentication);
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            return Response.ok("Login successful").header(SecurityConstants.HEADER_STRING,
-                    SecurityConstants.TOKEN_PREFIX + token).build();
+            UserLoginSuccessDTO loginSuccess = new UserLoginSuccessDTO(SecurityConstants.TOKEN_PREFIX + token);
+
+            return Response.ok("Login successful").body(loginSuccess).build();
 
         } catch (BadCredentialsException ex){
             return Response.unauthorized("Login failed: " + ex.getLocalizedMessage()).build();

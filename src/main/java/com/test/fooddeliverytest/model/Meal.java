@@ -19,7 +19,7 @@ public class Meal {
     @Column(nullable = false)
     private Long price;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "Ingredients", joinColumns = @JoinColumn(name = "meal_id"))
     @Column(name="ingredients")
     private List<String> ingredients;

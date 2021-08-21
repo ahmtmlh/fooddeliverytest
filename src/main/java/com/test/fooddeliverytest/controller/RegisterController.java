@@ -1,7 +1,7 @@
 package com.test.fooddeliverytest.controller;
 
 import com.test.fooddeliverytest.controller.response.Response;
-import com.test.fooddeliverytest.dto.UserRegisterDTO;
+import com.test.fooddeliverytest.dto.user.UserRegisterDTO;
 import com.test.fooddeliverytest.model.User;
 import com.test.fooddeliverytest.security.PasswordEncoderUtil;
 import com.test.fooddeliverytest.service.UserService;
@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
@@ -25,11 +24,12 @@ public class RegisterController {
     private PasswordEncoderUtil passwordEncoderUtil;
 
     @PostMapping("/register")
-    public ResponseEntity<?> Register(@RequestBody @Valid UserRegisterDTO userInfo, BindingResult bindingResult){
+    public ResponseEntity<?> register(@RequestBody UserRegisterDTO userInfo, BindingResult bindingResult){
 
         if (bindingResult.hasErrors()){
             return Response.badValue("Invalid Data", "Binding error").build();
         }
+
         String username = userInfo.getUsername();
         if (userService.userExist(username)){
             return Response.badValue(String.format("Username %s already exists", username), "Username exists").build();

@@ -1,4 +1,4 @@
-package com.test.fooddeliverytest.dto;
+package com.test.fooddeliverytest.dto.user;
 
 import javax.validation.constraints.NotNull;
 

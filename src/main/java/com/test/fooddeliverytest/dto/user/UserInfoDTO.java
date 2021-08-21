@@ -1,14 +1,21 @@
-package com.test.fooddeliverytest.dto;
+package com.test.fooddeliverytest.dto.user;
 
-public class UserUpdateDTO {
+import com.test.fooddeliverytest.model.OrderData;
+import com.test.fooddeliverytest.model.User;
+
+import java.util.List;
+
+public class UserInfoDTO {
 
     private String name;
     private String surname;
+    private String email;
     private String username;
     private String password;
     private String address;
     private String phone;
-    private String email;
+
+    private List<OrderData> lastOrders;
 
     public String getName() {
         return name;
@@ -65,4 +72,26 @@ public class UserUpdateDTO {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public List<OrderData> getLastOrders() {
+        return lastOrders;
+    }
+
+    public void setLastOrders(List<OrderData> lastOrders) {
+        this.lastOrders = lastOrders;
+    }
+
+    public static UserInfoDTO fromUser(User user){
+        UserInfoDTO userInfoDTO = new UserInfoDTO();
+
+        userInfoDTO.setAddress(user.getUserData().getAddress());
+        userInfoDTO.setEmail(user.getUserData().getEmail());
+        userInfoDTO.setName(user.getUserData().getName());
+        userInfoDTO.setSurname(user.getUserData().getSurname());
+        userInfoDTO.setPhone(user.getUserData().getPhone());
+        userInfoDTO.setLastOrders(user.getUserData().getLastOrders());
+
+        return userInfoDTO;
+    }
+
 }

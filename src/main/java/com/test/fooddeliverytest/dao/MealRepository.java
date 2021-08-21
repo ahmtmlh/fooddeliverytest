@@ -10,6 +10,5 @@ public interface MealRepository extends CrudRepository<Meal, Long> {
 
     List<Meal> findAllByNameStartsWith(String name);
     List<Meal> findAllByRestaurant(Restaurant restaurant);
-    List<Meal> findAllByPriceBetween(Long price1, Long price2);
 
 }

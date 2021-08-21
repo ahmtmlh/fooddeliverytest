@@ -1,7 +1,7 @@
 package com.test.fooddeliverytest.model;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 public class Cart {
@@ -20,7 +20,7 @@ public class Cart {
             joinColumns = @JoinColumn(name= "cart_id" ),
             inverseJoinColumns = @JoinColumn(name = "meal_id")
     )
-    private Set<Meal> meals;
+    private List<Meal> meals;
 
     public Long getId() {
         return id;
@@ -38,11 +38,11 @@ public class Cart {
         this.user = user;
     }
 
-    public Set<Meal> getMeals() {
+    public List<Meal> getMeals() {
         return meals;
     }
 
-    public void setMeals(Set<Meal> meals) {
+    public void setMeals(List<Meal> meals) {
         this.meals = meals;
     }
 }

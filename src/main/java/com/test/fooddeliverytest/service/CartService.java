@@ -23,4 +23,10 @@ public class CartService {
         cartRepository.save(cart);
     }
 
+    public Cart createCart(User user){
+        Cart cart = new Cart();
+        cart.setUser(user);
+        return cartRepository.save(cart);
+    }
+
 }

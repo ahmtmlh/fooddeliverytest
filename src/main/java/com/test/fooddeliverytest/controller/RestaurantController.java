@@ -1,5 +1,7 @@
 package com.test.fooddeliverytest.controller;
 
+import com.test.fooddeliverytest.annotation.AuthorizeAdmin;
+import com.test.fooddeliverytest.annotation.AuthorizeUser;
 import com.test.fooddeliverytest.controller.response.Response;
 import com.test.fooddeliverytest.dto.RestaurantInfoDTO;
 import com.test.fooddeliverytest.model.Restaurant;
@@ -7,6 +9,7 @@ import com.test.fooddeliverytest.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,7 +25,7 @@ public class RestaurantController {
     @Autowired
     private RestaurantService restaurantService;
 
-    @PreAuthorize("hasRole('NORMAL')")
+    @AuthorizeUser
     @GetMapping("/restaurants")
     public ResponseEntity<Response> getAllRestaurants() {
         List<Restaurant> restaurants = restaurantService.getAllRestaurants();
@@ -31,13 +34,13 @@ public class RestaurantController {
             return Response.notFound("No restaurants were found!").build();
         }
 
-        List<RestaurantInfoDTO> infos = new ArrayList<>();
-        restaurants.forEach(restaurant -> infos.add(RestaurantInfoDTO.fromRestaurant(restaurant)));
+        List<RestaurantInfoDTO> restaurantInfoList = new ArrayList<>();
+        restaurants.forEach(restaurant -> restaurantInfoList.add(RestaurantInfoDTO.fromRestaurant(restaurant)));
 
-        return Response.ok("Success").body(infos).build();
+        return Response.ok("Success").body(restaurantInfoList).build();
     }
 
-    @PreAuthorize("hasRole('NORMAL')")
+    @AuthorizeUser
     @GetMapping("/restaurants/{id}")
     public ResponseEntity<Response> getRestaurantById(@PathVariable(name = "id") @Valid Long id) {
         Optional<Restaurant> restaurant = restaurantService.getRestaurantById(id);
@@ -49,7 +52,7 @@ public class RestaurantController {
         return Response.ok("Success").body(RestaurantInfoDTO.fromRestaurant(restaurant.get())).build();
     }
 
-    @PreAuthorize("hasRole('NORMAL')")
+    @AuthorizeUser
     @GetMapping("/restaurants/{cuisine}")
     public ResponseEntity<Response> getRestaurantsByCuisine(@PathVariable(name = "cuisine") @Valid String cuisine) {
         List<Restaurant> restaurants = restaurantService.getRestaurantsByCuisine(cuisine);
@@ -62,6 +65,29 @@ public class RestaurantController {
         restaurants.forEach(restaurant -> infos.add(RestaurantInfoDTO.fromRestaurant(restaurant)));
 
         return Response.ok("Success").body(infos).build();
+    }
+
+    @AuthorizeAdmin
+    @PutMapping("/restaurants/add")
+    public ResponseEntity<Response> addRestaurant(@RequestBody @Valid RestaurantInfoDTO restaurantInfo,
+                                                  BindingResult bindingResult){
+
+        if (bindingResult.hasErrors()){
+            return Response.badValue("Invalid Data", "Binding error").build();
+        }
+
+        Restaurant restaurant = new Restaurant();
+
+        restaurant.setImageUrl(restaurantInfo.getImageUrl());
+        restaurant.setCuisine(restaurantInfo.getCuisine());
+        restaurant.setName(restaurantInfo.getName());
+        restaurant.setInformation(restaurantInfo.getInformation());
+        restaurant.setMinDeliveryFee(restaurantInfo.getMinDeliveryFee());
+        restaurant.setMinDeliveryTime(restaurantInfo.getMinDeliveryTime());
+
+        Restaurant added = restaurantService.addRestaurant(restaurant);
+
+        return Response.ok("Restaurant has been successfully added. ID: " + added.getId()).build();
     }
 
 }

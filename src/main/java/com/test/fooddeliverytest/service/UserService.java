@@ -1,6 +1,8 @@
 package com.test.fooddeliverytest.service;
 
+import com.test.fooddeliverytest.dao.CartRepository;
 import com.test.fooddeliverytest.dao.UserRepository;
+import com.test.fooddeliverytest.model.Cart;
 import com.test.fooddeliverytest.model.User;
 import com.test.fooddeliverytest.model.UserData;
 import com.test.fooddeliverytest.security.UserPrincipal;
@@ -17,6 +19,8 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private CartRepository cartRepository;
 
     public Optional<User> userDetails(String username){
         return Optional.ofNullable(userRepository.findByUsername(username));
@@ -26,18 +30,30 @@ public class UserService implements UserDetailsService {
         return userDetails(username).isPresent();
     }
 
-    public Optional<User> createUser(String username, String password){
-        return Optional.of(userRepository.save(new User(User.UserType.NORMAL, username, password)));
-    }
-
     public Optional<User> createUserWithData(String username, String password, UserData userData){
         User user = new User(User.UserType.NORMAL, username, password);
         user.setUserData(userData);
-        return Optional.of(userRepository.save(user));
+
+        User saved = userRepository.save(user);
+
+        Cart cart = new Cart();
+        cart.setUser(saved);
+        cartRepository.save(cart);
+
+        return Optional.of(saved);
     }
 
-    public Optional<User> createAdmin(String username, String password){
-        return Optional.of(userRepository.save(new User(User.UserType.ADMIN, username, password)));
+    public Optional<User> createAdminWithData(String username, String password, UserData userData){
+        User user = new User(User.UserType.ADMIN, username, password);
+        user.setUserData(userData);
+
+        User saved = userRepository.save(user);
+
+        Cart cart = new Cart();
+        cart.setUser(saved);
+        cartRepository.save(cart);
+
+        return Optional.of(saved);
     }
 
     public UserDetails getUserDetailsById(Long userId){

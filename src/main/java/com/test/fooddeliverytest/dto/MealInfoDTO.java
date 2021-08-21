@@ -7,7 +7,6 @@ import java.util.List;
 
 public class MealInfoDTO {
 
-    @NotNull
     private Long id;
     private String imageUrl;
     @NotNull

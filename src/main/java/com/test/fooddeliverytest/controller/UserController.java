@@ -1,15 +1,16 @@
 package com.test.fooddeliverytest.controller;
 
+import com.test.fooddeliverytest.annotation.AuthorizeAdmin;
+import com.test.fooddeliverytest.annotation.AuthorizeUser;
 import com.test.fooddeliverytest.controller.response.Response;
 import com.test.fooddeliverytest.dto.user.UserInfoDTO;
-import com.test.fooddeliverytest.dto.user.UserLoginDTO;
+import com.test.fooddeliverytest.dto.user.UserRegisterDTO;
 import com.test.fooddeliverytest.model.User;
 import com.test.fooddeliverytest.security.PasswordEncoderUtil;
 import com.test.fooddeliverytest.security.UserPrincipal;
 import com.test.fooddeliverytest.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
@@ -28,9 +29,9 @@ public class UserController {
     @Autowired
     private PasswordEncoderUtil passwordEncoderUtil;
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @AuthorizeAdmin
     @PostMapping("/add/normal")
-    public ResponseEntity<?> registerNormalUser(@RequestBody @Valid UserLoginDTO userInfo, BindingResult result){
+    public ResponseEntity<?> registerNormalUser(@RequestBody @Valid UserRegisterDTO userInfo, BindingResult result){
 
         if (result.hasErrors()){
             return Response.badValue("Invalid data received", "Binding error").build();
@@ -42,16 +43,17 @@ public class UserController {
 
         userInfo.setPassword(passwordEncoderUtil.encodePassword(userInfo.getPassword()));
 
-        if (userService.createUser(userInfo.getUsername(), userInfo.getPassword()).isEmpty()) {
+        if (userService.createUserWithData(userInfo.getUsername(), userInfo.getPassword(), userInfo.getUserData()).isEmpty()) {
             return Response.badValue("Can't create user", "User creation error").build();
         }
+
 
         return Response.ok("User has been added successfully").build();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @AuthorizeAdmin
     @PostMapping("/add/admin")
-    public ResponseEntity<?> registerAdmin(@RequestBody @Valid UserLoginDTO userInfo){
+    public ResponseEntity<?> registerAdmin(@RequestBody @Valid UserRegisterDTO userInfo){
 
         if (userService.userExist(userInfo.getUsername())){
             return Response.badValue("User exists!", "Invalid username").build();
@@ -59,14 +61,14 @@ public class UserController {
 
         userInfo.setPassword(passwordEncoderUtil.encodePassword(userInfo.getPassword()));
 
-        if (userService.createAdmin(userInfo.getUsername(), userInfo.getPassword()).isEmpty()){
+        if (userService.createAdminWithData(userInfo.getUsername(), userInfo.getPassword(), userInfo.getUserData()).isEmpty()){
             return Response.badValue("Can't create user", "User creation error").build();
         }
 
         return Response.ok("Admin has been added successfully").build();
     }
 
-    @PreAuthorize("hasRole('NORMAL')")
+    @AuthorizeUser
     @GetMapping("/user")
     public ResponseEntity<Response> getUserInfo(@AuthenticationPrincipal UserPrincipal principal){
 
@@ -83,7 +85,7 @@ public class UserController {
         return Response.ok("Success").body(UserInfoDTO.fromUser(user.get())).build();
     }
 
-    @PreAuthorize("hasRole('NORMAL')")
+    @AuthorizeUser
     @PostMapping("/user/update")
     public ResponseEntity<Response> updateUserInfo(@RequestBody @Valid UserInfoDTO userInfo,
                                                    BindingResult bindingResult,

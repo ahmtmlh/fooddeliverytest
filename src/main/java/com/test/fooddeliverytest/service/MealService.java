@@ -40,4 +40,7 @@ public class MealService {
         return mealRepository.findById(id);
     }
 
+    public Meal addMeal(Meal meal) {
+        return mealRepository.save(meal);
+    }
 }

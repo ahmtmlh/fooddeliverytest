@@ -36,4 +36,9 @@ public class RestaurantService {
     public List<Restaurant> getRestaurantsByNameStartingWith(String restaurantName){
         return restaurantRepository.findAllByNameStartsWith(restaurantName);
     }
+
+    public Restaurant addRestaurant(Restaurant restaurant){
+        return restaurantRepository.save(restaurant);
+    }
+
 }

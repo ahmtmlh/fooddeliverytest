@@ -7,7 +7,6 @@ import java.util.List;
 
 public class RestaurantInfoDTO {
 
-    @NotNull
     private Long id;
     @NotNull
     private String name;
@@ -20,7 +19,6 @@ public class RestaurantInfoDTO {
     @NotNull
     private String minDeliveryFee;
 
-    private List<MealInfoDTO> meals;
     private String imageUrl;
 
     public Long getId() {
@@ -69,14 +67,6 @@ public class RestaurantInfoDTO {
 
     public void setMinDeliveryFee(String minDeliveryFee) {
         this.minDeliveryFee = minDeliveryFee;
-    }
-
-    public List<MealInfoDTO> getMeals() {
-        return meals;
-    }
-
-    public void setMeals(List<MealInfoDTO> meals) {
-        this.meals = meals;
     }
 
     public String getImageUrl() {

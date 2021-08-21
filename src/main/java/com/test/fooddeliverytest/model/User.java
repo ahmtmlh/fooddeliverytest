@@ -23,7 +23,7 @@ public class User {
     private String password;
 
     @OneToOne(fetch = FetchType.EAGER, targetEntity = UserData.class)
-    @JoinColumn(name = "userdata_id", unique = true)
+    @JoinColumn(name = "userdata_id", unique = true, nullable = false)
     private UserData userData;
 
     @OneToOne(fetch = FetchType.LAZY, targetEntity = Cart.class, mappedBy = "user")

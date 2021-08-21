@@ -1,5 +1,6 @@
 package com.test.fooddeliverytest.controller;
 
+import com.test.fooddeliverytest.annotation.AuthorizeUser;
 import com.test.fooddeliverytest.controller.response.Response;
 import com.test.fooddeliverytest.dto.OrderDataInfoDTO;
 import com.test.fooddeliverytest.model.Cart;
@@ -37,7 +38,7 @@ public class OrderDataController {
     @Autowired
     private OrderService orderService;
 
-    @PreAuthorize("hasRole('NORMAL')")
+    @AuthorizeUser
     @PutMapping("/orders/create")
     public ResponseEntity<Response> createOrder(@AuthenticationPrincipal UserPrincipal principal) {
 
@@ -68,7 +69,7 @@ public class OrderDataController {
         return Response.ok("Success").build();
     }
 
-    @PreAuthorize("hasRole('NORMAL')")
+    @AuthorizeUser
     @GetMapping("/orders")
     public ResponseEntity<Response> getOrders(@AuthenticationPrincipal UserPrincipal principal){
         if (principal == null || principal.getUsername().isBlank()) {

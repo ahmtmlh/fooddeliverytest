@@ -3,6 +3,7 @@ package com.test.fooddeliverytest.config;
 import com.test.fooddeliverytest.model.User;
 import com.test.fooddeliverytest.security.JwtAuthenticationEntryPoint;
 import com.test.fooddeliverytest.security.JwtAuthenticationFilter;
+import com.test.fooddeliverytest.security.SecurityConstants;
 import com.test.fooddeliverytest.security.UserPrincipal;
 import com.test.fooddeliverytest.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +44,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
 
-        User defaultUser = new User(User.UserType.ADMIN, "admin123",
-                bCryptPasswordEncoder.encode("password123"));
+        User defaultUser = new User(User.UserType.ADMIN, SecurityConstants.ADMIN_USER.getUsername(),
+                bCryptPasswordEncoder.encode(SecurityConstants.ADMIN_USER.getPassword()));
 
         authenticationManagerBuilder.inMemoryAuthentication().withUser(UserPrincipal.create(defaultUser));
 
@@ -94,7 +95,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .anyRequest()
                 .authenticated();
 
-        http.httpBasic().realmName("TEST REALM");
+        http.httpBasic().realmName("FOOD DELIVERY TEST REALM");
         // Add our custom JWT security filter
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }

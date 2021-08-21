@@ -1,5 +1,6 @@
 package com.test.fooddeliverytest.controller;
 
+import com.test.fooddeliverytest.annotation.AuthorizeUser;
 import com.test.fooddeliverytest.controller.response.Response;
 import com.test.fooddeliverytest.dto.CartInfoDTO;
 import com.test.fooddeliverytest.model.Cart;
@@ -29,7 +30,7 @@ public class CartController {
     @Autowired
     private CartService cartService;
 
-    @PreAuthorize("hasRole('NORMAL')")
+    @AuthorizeUser
     @GetMapping("/cart")
     public ResponseEntity<Response> getCart(@AuthenticationPrincipal UserPrincipal principal) {
 
@@ -48,7 +49,7 @@ public class CartController {
         return Response.ok("Success").body(CartInfoDTO.fromCart(cart)).build();
     }
 
-    @PreAuthorize("hasRole('NORMAL')")
+    @AuthorizeUser
     @PutMapping("/cart/add")
     public ResponseEntity<Response> addItemToCart(
             @RequestParam(name="meal_id") @Valid Long mealId,

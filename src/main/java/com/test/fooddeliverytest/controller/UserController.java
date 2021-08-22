@@ -21,6 +21,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/rest")
+@CrossOrigin(allowedHeaders = "*", origins = "*")
 public class UserController {
 
     @Autowired

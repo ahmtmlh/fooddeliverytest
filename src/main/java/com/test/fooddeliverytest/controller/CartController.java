@@ -47,7 +47,12 @@ public class CartController {
 
         Cart cart = optionalUser.get().getCart();
 
-        return Response.ok("Success").body(CartInfoDTO.fromCart(cart)).build();
+        if (cart.getMeals().isEmpty()){
+            return Response.notFound("No data found in Cart").build();
+        } else {
+            return Response.ok("Success").body(CartInfoDTO.fromCart(cart)).build();
+        }
+
     }
 
     @AuthorizeUser

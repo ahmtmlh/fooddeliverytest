@@ -22,7 +22,7 @@ public class User {
     @Column
     private String password;
 
-    @OneToOne(fetch = FetchType.EAGER, targetEntity = UserData.class)
+    @OneToOne(fetch = FetchType.EAGER, targetEntity = UserData.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "userdata_id", unique = true, nullable = false)
     private UserData userData;
 

@@ -61,4 +61,9 @@ public class LoginController {
         }
     }
 
+    @GetMapping("/hello-world")
+    public ResponseEntity<Response> helloWorld(){
+        return Response.ok("Hello World!").build();
+    }
+
 }

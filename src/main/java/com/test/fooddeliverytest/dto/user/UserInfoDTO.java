@@ -1,6 +1,5 @@
 package com.test.fooddeliverytest.dto.user;
 
-import com.test.fooddeliverytest.dto.OrderDataInfoDTO;
 import com.test.fooddeliverytest.dto.OrderDataLastOrdersDTO;
 import com.test.fooddeliverytest.model.User;
 

@@ -1,6 +1,5 @@
 package com.test.fooddeliverytest.dto;
 
-import com.test.fooddeliverytest.dto.user.UserInfoDTO;
 import com.test.fooddeliverytest.model.OrderData;
 
 import java.util.ArrayList;

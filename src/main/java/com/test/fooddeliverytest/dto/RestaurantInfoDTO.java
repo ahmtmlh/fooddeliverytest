@@ -3,7 +3,6 @@ package com.test.fooddeliverytest.dto;
 import com.test.fooddeliverytest.model.Restaurant;
 
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 public class RestaurantInfoDTO {
 

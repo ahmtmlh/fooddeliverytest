@@ -90,6 +90,7 @@ public class UserInfoDTO {
         userInfoDTO.setSurname(user.getUserData().getSurname());
         userInfoDTO.setPhone(user.getUserData().getPhone());
         userInfoDTO.setLastOrders(user.getUserData().getLastOrders());
+        userInfoDTO.setUsername(user.getUsername());
 
         return userInfoDTO;
     }

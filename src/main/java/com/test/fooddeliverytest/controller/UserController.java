@@ -108,19 +108,20 @@ public class UserController {
 
         User user = optionalUser.get();
 
-        user.setUsername(userInfo.getUsername());
-        user.setPassword(passwordEncoderUtil.encodePassword(userInfo.getPassword()));
-
         if (StringUtils.hasText(userInfo.getAddress()))
             user.getUserData().setAddress(userInfo.getAddress());
         if (StringUtils.hasText(userInfo.getEmail()))
-            user.getUserData().setAddress(userInfo.getEmail());
+            user.getUserData().setEmail(userInfo.getEmail());
         if (StringUtils.hasText(userInfo.getPhone()))
-            user.getUserData().setAddress(userInfo.getPhone());
+            user.getUserData().setPhone(userInfo.getPhone());
         if (StringUtils.hasText(userInfo.getName()))
-            user.getUserData().setAddress(userInfo.getName());
+            user.getUserData().setName(userInfo.getName());
         if (StringUtils.hasText(userInfo.getSurname()))
-            user.getUserData().setAddress(userInfo.getSurname());
+            user.getUserData().setSurname(userInfo.getSurname());
+        if (StringUtils.hasText(userInfo.getUsername()))
+            user.setUsername(userInfo.getUsername());
+        if (StringUtils.hasText(userInfo.getPassword()))
+            user.setPassword(passwordEncoderUtil.encodePassword(userInfo.getPassword()));
 
         userService.updateUser(user);
 

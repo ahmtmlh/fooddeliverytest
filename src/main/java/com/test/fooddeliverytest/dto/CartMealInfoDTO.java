@@ -6,7 +6,7 @@ public class CartMealInfoDTO {
     private Integer count;
 
     public CartMealInfoDTO() {
-        count = 0;
+        count = 1;
     }
 
     public MealInfoDTO getMealInfo() {

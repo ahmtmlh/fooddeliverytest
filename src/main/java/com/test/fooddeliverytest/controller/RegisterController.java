@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
@@ -24,7 +25,7 @@ public class RegisterController {
     private PasswordEncoderUtil passwordEncoderUtil;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody UserRegisterDTO userInfo, BindingResult bindingResult){
+    public ResponseEntity<?> register(@RequestBody @Valid UserRegisterDTO userInfo, BindingResult bindingResult){
 
         if (bindingResult.hasErrors()){
             return Response.badValue("Invalid Data", "Binding error").build();

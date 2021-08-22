@@ -1,7 +1,7 @@
 package com.test.fooddeliverytest.model;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 public class OrderData {
@@ -19,9 +19,13 @@ public class OrderData {
     @JoinColumn(nullable = false, name = "restaurant_id")
     private Restaurant restaurant;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Meal.class)
-    @JoinColumn(name = "meal_id", nullable = false)
-    private Set<Meal> mealData;
+    @ManyToMany(targetEntity = Meal.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "order_meal",
+            joinColumns = @JoinColumn(name="order_id"),
+            inverseJoinColumns = @JoinColumn(name="meal_id")
+    )
+    private List<Meal> mealData;
 
     public Long getId() {
         return id;
@@ -39,11 +43,11 @@ public class OrderData {
         this.restaurant = restaurant;
     }
 
-    public Set<Meal> getMealData() {
+    public List<Meal> getMealData() {
         return mealData;
     }
 
-    public void setMealData(Set<Meal> mealData) {
+    public void setMealData(List<Meal> mealData) {
         this.mealData = mealData;
     }
 

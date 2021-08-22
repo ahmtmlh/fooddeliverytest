@@ -60,7 +60,7 @@ public class OrderDataController {
 
         OrderData orderData = new OrderData();
 
-        orderData.setMealData(new HashSet<>(cart.getMeals()));
+        orderData.setMealData(cart.getMeals());
         orderData.setRestaurant(cart.getMeals().get(0).getRestaurant());
         orderData.setUser(optionalUser.get());
 

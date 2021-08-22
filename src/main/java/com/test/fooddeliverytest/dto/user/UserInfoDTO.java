@@ -1,8 +1,9 @@
 package com.test.fooddeliverytest.dto.user;
 
-import com.test.fooddeliverytest.model.OrderData;
+import com.test.fooddeliverytest.dto.OrderDataInfoDTO;
 import com.test.fooddeliverytest.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserInfoDTO {
@@ -15,7 +16,7 @@ public class UserInfoDTO {
     private String address;
     private String phone;
 
-    private List<OrderData> lastOrders;
+    private List<OrderDataInfoDTO> lastOrders;
 
     public String getName() {
         return name;
@@ -73,11 +74,11 @@ public class UserInfoDTO {
         this.email = email;
     }
 
-    public List<OrderData> getLastOrders() {
+    public List<OrderDataInfoDTO> getLastOrders() {
         return lastOrders;
     }
 
-    public void setLastOrders(List<OrderData> lastOrders) {
+    public void setLastOrders(List<OrderDataInfoDTO> lastOrders) {
         this.lastOrders = lastOrders;
     }
 
@@ -89,7 +90,11 @@ public class UserInfoDTO {
         userInfoDTO.setName(user.getUserData().getName());
         userInfoDTO.setSurname(user.getUserData().getSurname());
         userInfoDTO.setPhone(user.getUserData().getPhone());
-        userInfoDTO.setLastOrders(user.getUserData().getLastOrders());
+
+        List<OrderDataInfoDTO> list = new ArrayList<>();
+        user.getUserData().getLastOrders().forEach(orderData -> list.add(OrderDataInfoDTO.fromOrderData(orderData)));
+        userInfoDTO.setLastOrders(list);
+
         userInfoDTO.setUsername(user.getUsername());
 
         return userInfoDTO;

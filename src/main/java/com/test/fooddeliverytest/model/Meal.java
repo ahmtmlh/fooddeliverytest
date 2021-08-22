@@ -95,7 +95,7 @@ public class Meal {
             return true;
         if (obj instanceof Meal){
             Meal that = (Meal) obj;
-            return that.getName().equals(this.getName());
+            return that.getId().equals(this.getId());
         }
 
         return false;

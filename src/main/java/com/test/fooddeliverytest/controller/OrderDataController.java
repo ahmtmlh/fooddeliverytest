@@ -66,6 +66,10 @@ public class OrderDataController {
 
         orderService.createOrder(orderData);
 
+        // Clear cart data after creating orderData
+        cart.getMeals().clear();
+        cartService.updateCart(cart);
+
         return Response.ok("Success").build();
     }
 

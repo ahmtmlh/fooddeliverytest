@@ -9,7 +9,7 @@ import java.util.List;
 public class CartInfoDTO {
 
     private RestaurantInfoDTO restaurantInfo;
-    private List<MealInfoDTO> mealInfoList;
+    private List<CartMealInfoDTO> mealInfoList;
 
     public RestaurantInfoDTO getRestaurantInfo() {
         return restaurantInfo;
@@ -19,22 +19,33 @@ public class CartInfoDTO {
         this.restaurantInfo = restaurantInfo;
     }
 
-    public List<MealInfoDTO> getMealInfoList() {
+    public List<CartMealInfoDTO> getMealInfoList() {
         return mealInfoList;
     }
 
-    public void setMealInfoList(List<MealInfoDTO> mealInfoList) {
+    public void setMealInfoList(List<CartMealInfoDTO> mealInfoList) {
         this.mealInfoList = mealInfoList;
     }
 
     public static CartInfoDTO fromCart(Cart cart){
         CartInfoDTO cartInfoDTO = new CartInfoDTO();
 
-        List<MealInfoDTO> list = new ArrayList<>();
         List<Meal> meals = cart.getMeals();
-
+        List<CartMealInfoDTO> list = new ArrayList<>();
         RestaurantInfoDTO restaurantInfoDTO = RestaurantInfoDTO.fromRestaurant(meals.get(0).getRestaurant());
-        meals.forEach(meal -> list.add(MealInfoDTO.fromMeal(meal)));
+
+        for (Meal meal: meals) {
+            CartMealInfoDTO cartMealInfo = new CartMealInfoDTO();
+            cartMealInfo.setMealInfo(MealInfoDTO.fromMeal(meal));
+
+            int index = list.indexOf(cartMealInfo);
+
+            if (index == -1){
+                list.add(cartMealInfo);
+            } else {
+                list.get(index).incrementCount();
+            }
+        }
 
         cartInfoDTO.setMealInfoList(list);
         cartInfoDTO.setRestaurantInfo(restaurantInfoDTO);

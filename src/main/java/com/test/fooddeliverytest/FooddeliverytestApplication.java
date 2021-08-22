@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class FooddeliverytestApplication {
 
-	public static final String VERSION = "V1.0.2";
+	public static final String VERSION = "V1.0.3";
 
 	public static void main(String[] args) {
 		SpringApplication.run(FooddeliverytestApplication.class, args);

@@ -15,7 +15,7 @@ public class Cart {
     @JoinColumn(nullable = false, name = "user_id", unique = true)
     private User user;
 
-    @OneToMany(targetEntity = Meal.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity = Meal.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "cart_meal",
             joinColumns = @JoinColumn(name= "cart_id" ),

@@ -24,9 +24,6 @@ public class UserData {
     private String surname;
     @OneToOne(fetch = FetchType.EAGER, targetEntity = User.class, mappedBy = "userData")
     private User user;
-    @OneToMany(targetEntity = OrderData.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
-    private List<OrderData> lastOrders;
-
 
     public UserData() {
     }
@@ -101,13 +98,5 @@ public class UserData {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public List<OrderData> getLastOrders() {
-        return lastOrders;
-    }
-
-    public void setLastOrders(List<OrderData> lastOrders) {
-        this.lastOrders = lastOrders;
     }
 }

@@ -85,7 +85,7 @@ public class OrderDataController {
         }
 
         //List<OrderData> orderList = orderService.getOrdersOfUser(optionalUser.get());
-        List<OrderData> orderList = optionalUser.get().getUserData().getLastOrders();
+        List<OrderData> orderList = optionalUser.get().getLastOrders();
 
         if (orderList.isEmpty()){
             return Response.notFound("No order found for the user!").build();

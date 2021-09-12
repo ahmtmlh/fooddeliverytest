@@ -1,6 +1,7 @@
 package com.test.fooddeliverytest.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class User {
@@ -28,6 +29,10 @@ public class User {
 
     @OneToOne(fetch = FetchType.LAZY, targetEntity = Cart.class, mappedBy = "user")
     private Cart cart;
+
+    @OneToMany(targetEntity = OrderData.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
+    private List<OrderData> lastOrders;
+
 
     public User(UserType userType, String username, String password) {
         this.userType = userType;
@@ -83,5 +88,13 @@ public class User {
 
     public void setCart(Cart cart) {
         this.cart = cart;
+    }
+
+    public List<OrderData> getLastOrders() {
+        return lastOrders;
+    }
+
+    public void setLastOrders(List<OrderData> lastOrders) {
+        this.lastOrders = lastOrders;
     }
 }

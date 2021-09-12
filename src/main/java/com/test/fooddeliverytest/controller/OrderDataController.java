@@ -13,7 +13,6 @@ import com.test.fooddeliverytest.service.OrderService;
 import com.test.fooddeliverytest.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -87,7 +85,7 @@ public class OrderDataController {
         }
 
         //List<OrderData> orderList = orderService.getOrdersOfUser(optionalUser.get());
-        List<OrderData> orderList = optionalUser.get().getUserData().getLastOrders();
+        List<OrderData> orderList = optionalUser.get().getLastOrders();
 
         if (orderList.isEmpty()){
             return Response.notFound("No order found for the user!").build();

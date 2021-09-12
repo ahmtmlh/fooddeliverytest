@@ -1,6 +1,5 @@
 package com.test.fooddeliverytest.dto.user;
 
-import com.test.fooddeliverytest.dto.OrderDataInfoDTO;
 import com.test.fooddeliverytest.dto.OrderDataLastOrdersDTO;
 import com.test.fooddeliverytest.model.User;
 
@@ -93,7 +92,7 @@ public class UserInfoDTO {
         userInfoDTO.setPhone(user.getUserData().getPhone());
 
         List<OrderDataLastOrdersDTO> list = new ArrayList<>();
-        user.getUserData().getLastOrders().forEach(orderData -> list.add(OrderDataLastOrdersDTO.fromOrderData(orderData)));
+        user.getLastOrders().forEach(orderData -> list.add(OrderDataLastOrdersDTO.fromOrderData(orderData)));
         userInfoDTO.setLastOrders(list);
 
         userInfoDTO.setUsername(user.getUsername());
